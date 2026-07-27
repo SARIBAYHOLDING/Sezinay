@@ -67,9 +67,9 @@ export const MEMORY_LOCATIONS: MemoryLocation[] = [
   {
     id: 'loc-1',
     title: 'İlk Buluştuğumuz Kafe ☕📍',
-    location: 'Gözlerimizin İlk Kesiştiği Yer',
+    location: 'Kushimoto Sokağı EspressoLab',
     date: '17 Temmuz 2026',
-    description: 'Kalbimin ilk defa böyle hızlı çarptığı, "Selo" ve "Ada" yazılı kahvelerimizi içtiğimiz o unutulmaz kafe buluşmamız...',
+    description: 'Kushimoto Sokağı\'ndaki EspressoLab\'da içtiğimiz o harika kahvelerin tadı hâlâ damağımda... Kalbimin ilk defa böyle hızlı çarptığı, "Selo" ve "Ada" yazılı bardağımızla başlayan unutulmaz buluşmamız ❤️',
     coordinates: { x: 35, y: 45 },
     icon: 'Coffee',
     photoUrl: '/photos/photo6.jpg',
