@@ -19,12 +19,12 @@ export const ThreeBackground: React.FC = () => {
     );
     camera.position.set(0, 0, 28);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     containerRef.current.appendChild(renderer.domElement);
 
-    // 2. Lights with Pure White & Pink Accents
+    // 2. Ambient & Accent Spot Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
     scene.add(ambientLight);
 
@@ -43,7 +43,7 @@ export const ThreeBackground: React.FC = () => {
     scene.add(pinkPoint);
 
     // 3. Wavy Silk Curtain Backdrop Geometry
-    const curtainGeo = new THREE.PlaneGeometry(120, 80, 64, 48);
+    const curtainGeo = new THREE.PlaneGeometry(120, 80, 48, 36);
     const curtainMat = new THREE.MeshPhongMaterial({
       color: 0x5a031a,
       emissive: 0x2b010d,
@@ -79,7 +79,6 @@ export const ThreeBackground: React.FC = () => {
     const petalGeo = new THREE.ExtrudeGeometry(petalShape, petalExtrude);
     petalGeo.center();
 
-    // Pink Petal Material
     const pinkPetalMat = new THREE.MeshPhongMaterial({
       color: 0xff2a6d,
       emissive: 0x880e4f,
@@ -88,7 +87,6 @@ export const ThreeBackground: React.FC = () => {
       side: THREE.DoubleSide,
     });
 
-    // Silk White Petal Material
     const whitePetalMat = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       emissive: 0xffeef2,
@@ -105,7 +103,7 @@ export const ThreeBackground: React.FC = () => {
       swayOffset: number;
     }[] = [];
 
-    const numPetals = 85;
+    const numPetals = 75;
     for (let i = 0; i < numPetals; i++) {
       const isWhite = i % 3 === 0;
       const mat = isWhite ? whitePetalMat.clone() : pinkPetalMat.clone();
@@ -139,7 +137,7 @@ export const ThreeBackground: React.FC = () => {
       });
     }
 
-    // 5. Floating Shiny 3D Hearts & White Pearls
+    // 5. Floating Shiny 3D Hearts
     const heartShape = new THREE.Shape();
     const x = 0, y = 0;
     heartShape.moveTo(x + 0.5, y + 0.5);
@@ -153,7 +151,7 @@ export const ThreeBackground: React.FC = () => {
     const heartExtrude = {
       depth: 0.4,
       bevelEnabled: true,
-      bevelSegments: 4,
+      bevelSegments: 3,
       steps: 1,
       bevelSize: 0.2,
       bevelThickness: 0.2,
@@ -169,7 +167,7 @@ export const ThreeBackground: React.FC = () => {
     });
 
     const heartInstances: { mesh: THREE.Mesh; basePosY: number }[] = [];
-    const numHearts = 18;
+    const numHearts = 16;
     for (let i = 0; i < numHearts; i++) {
       const mesh = new THREE.Mesh(heartGeo, heartMat.clone());
       const s = 0.5 + Math.random() * 0.8;
@@ -210,13 +208,13 @@ export const ThreeBackground: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Animation Loop
+    // Animation Loop with performance.now()
     let animId: number;
-    const clock = new THREE.Clock();
+    const startTime = performance.now();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const elapsed = clock.getElapsedTime();
+      const elapsed = (performance.now() - startTime) * 0.001;
 
       targetX += (mouseX * 4 - targetX) * 0.05;
       targetY += (mouseY * 4 - targetY) * 0.05;
@@ -271,6 +269,15 @@ export const ThreeBackground: React.FC = () => {
       if (containerRef.current && renderer.domElement) {
         containerRef.current.removeChild(renderer.domElement);
       }
+      // Memory cleanup
+      curtainGeo.dispose();
+      curtainMat.dispose();
+      petalGeo.dispose();
+      pinkPetalMat.dispose();
+      whitePetalMat.dispose();
+      heartGeo.dispose();
+      heartMat.dispose();
+      renderer.dispose();
     };
   }, []);
 
