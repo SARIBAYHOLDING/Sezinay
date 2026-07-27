@@ -125,5 +125,5 @@ export const FEATURED_MUSIC: MusicTrack = {
   id: 'track-1',
   title: 'Duygularımızın Şarkısı 🎵',
   artist: 'SELO & Sezinay Özel Playlisting',
-  coverUrl: '/photos/photo1.jpg',
+  coverUrl: '/photos/spotify_blend.jpg',
 };
