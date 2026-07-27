@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Flower2, Coffee, Plus, Minus, Navigation, X } from 'lucide-react';
+import { Heart, Flower2, Coffee, Plus, Minus, Navigation, X, ExternalLink } from 'lucide-react';
 import type { MemoryLocation } from '../types';
 
 interface MemoryMapProps {
@@ -59,20 +59,20 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
           style={{
             transform: `scale(${zoomLevel})`,
             backgroundImage: `
-              radial-gradient(circle at 50% 50%, rgba(255, 77, 141, 0.2) 0%, transparent 60%),
-              linear-gradient(rgba(255, 182, 193, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255, 182, 193, 0.1) 1px, transparent 1px)
+              radial-gradient(circle at 50% 50%, rgba(255, 77, 141, 0.25) 0%, transparent 60%),
+              linear-gradient(rgba(255, 182, 193, 0.12) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 182, 193, 0.12) 1px, transparent 1px)
             `,
             backgroundSize: '100% 100%, 30px 30px, 30px 30px',
           }}
         >
-          {/* Decorative Rivers & Parks Paths */}
-          <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none">
+          {/* Decorative Path Line connecting pins */}
+          <svg className="absolute inset-0 w-full h-full opacity-40 pointer-events-none">
             <path
-              d="M 10 120 Q 150 40 300 180 T 500 100"
+              d="M 120 115 Q 220 70 330 85 T 250 180"
               fill="none"
-              stroke="#ff80ab"
-              strokeWidth="4"
+              stroke="#ff4d8d"
+              strokeWidth="3"
               strokeDasharray="6,6"
             />
           </svg>
@@ -81,22 +81,22 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
           {locations.map((loc) => (
             <motion.button
               key={loc.id}
-              whileHover={{ scale: 1.25, zIndex: 30 }}
+              whileHover={{ scale: 1.3, zIndex: 30 }}
               onClick={() => setSelectedLoc(loc)}
               style={{
                 left: `${loc.coordinates.x}%`,
                 top: `${loc.coordinates.y}%`,
               }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 p-2 rounded-full bg-gradient-to-tr from-pink-600 to-rose-400 border-2 border-white text-white shadow-lg shadow-pink-600/50 flex items-center justify-center cursor-pointer group"
+              className="absolute -translate-x-1/2 -translate-y-1/2 p-2 rounded-full bg-gradient-to-tr from-pink-600 via-rose-500 to-amber-300 border-2 border-white text-white shadow-lg shadow-pink-600/60 flex items-center justify-center cursor-pointer group"
             >
               <div className="relative">
                 {getIcon(loc.icon)}
                 {/* Pulse Ring */}
-                <div className="absolute -inset-1 rounded-full bg-pink-400 opacity-60 animate-ping pointer-events-none" />
+                <div className="absolute -inset-1 rounded-full bg-pink-400 opacity-70 animate-ping pointer-events-none" />
               </div>
 
               {/* Hover Tooltip Preview */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 px-2.5 py-1 rounded-lg bg-pink-950/90 text-white text-[10px] font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-pink-400/40">
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 px-2.5 py-1 rounded-lg bg-pink-950/95 text-white text-[11px] font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-pink-400/50 shadow-md">
                 {loc.title}
               </div>
             </motion.button>
@@ -111,7 +111,7 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="mt-4 p-4 rounded-2xl bg-pink-950/90 border border-pink-400/40 backdrop-blur-md relative"
+            className="mt-4 p-4 rounded-2xl bg-pink-950/95 border border-pink-400/50 backdrop-blur-md relative shadow-xl"
           >
             <button
               onClick={() => setSelectedLoc(null)}
@@ -119,18 +119,40 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
             >
               <X className="w-4 h-4" />
             </button>
+
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-pink-600/40 border border-pink-300/40 flex items-center justify-center text-pink-300 shrink-0 mt-0.5">
-                {getIcon(selectedLoc.icon)}
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+              {selectedLoc.photoUrl ? (
+                <img
+                  src={selectedLoc.photoUrl}
+                  alt={selectedLoc.title}
+                  className="w-16 h-16 rounded-xl object-cover border border-pink-300/40 shrink-0"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-pink-600/40 border border-pink-300/40 flex items-center justify-center text-pink-300 shrink-0">
+                  {getIcon(selectedLoc.icon)}
+                </div>
+              )}
+
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-bold text-white flex items-center gap-1.5 truncate">
                   {selectedLoc.title}
                 </h4>
                 <p className="text-xs text-pink-300 font-medium">{selectedLoc.location} • {selectedLoc.date}</p>
-                <p className="text-xs text-pink-100/90 mt-2 leading-relaxed">
+                <p className="text-xs text-pink-100/90 mt-1.5 leading-relaxed">
                   {selectedLoc.description}
                 </p>
+
+                {/* Direct Google Maps Link Button */}
+                {selectedLoc.mapUrl && (
+                  <a
+                    href={selectedLoc.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-600 to-rose-500 text-white text-xs font-semibold hover:from-pink-500 hover:to-rose-400 transition-all shadow-md"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" /> Konuma Haritada Git
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>

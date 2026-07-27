@@ -23,56 +23,38 @@ html, body {
   width: 100%;
   min-height: 100vh;
   font-family: var(--font-sans);
-  background-color: #2b0312;
+  background-color: transparent;
   color: #fff;
   overflow-x: hidden;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Background Texture & Gradient */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 77, 141, 0.35) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(194, 24, 91, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(74, 4, 27, 0.9) 0%, #17010a 100%);
-  z-index: -2;
-}
-
-/* Subtle Paper Grain Effect */
-.bg-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
-  background-size: 24px 24px;
-}
-
-/* Glassmorphism Cards */
+/* Glassmorphism Cards with 3D Depth Shadows */
 .pink-glass {
-  background: rgba(255, 240, 245, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 182, 193, 0.25);
+  background: rgba(255, 240, 245, 0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 182, 193, 0.3);
   box-shadow: 
-    0 12px 40px 0 rgba(194, 24, 91, 0.25),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    0 16px 40px 0 rgba(194, 24, 91, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 .pink-glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 182, 193, 0.08) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 182, 193, 0.12) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(255, 105, 180, 0.2);
+    0 25px 60px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(255, 105, 180, 0.3);
   border-radius: 24px;
 }
 
 .gold-border {
-  border: 2px solid rgba(255, 215, 0, 0.6);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 /* Font Classes */
@@ -92,16 +74,21 @@ body::before {
     radial-gradient(circle at 40% 80%, #69341b 12%, transparent 16%),
     #d4a359;
   background-size: 20px 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* 3D Tilt Container Perspective */
+.perspective-1000 {
+  perspective: 1000px;
 }
 
 /* Pulsing Glow Animation */
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(255, 77, 141, 0.4), 0 0 30px rgba(255, 77, 141, 0.2);
+    box-shadow: 0 0 15px rgba(255, 77, 141, 0.5), 0 0 35px rgba(255, 77, 141, 0.3);
   }
   50% {
-    box-shadow: 0 0 25px rgba(255, 77, 141, 0.8), 0 0 50px rgba(255, 77, 141, 0.5);
+    box-shadow: 0 0 30px rgba(255, 77, 141, 0.9), 0 0 60px rgba(255, 77, 141, 0.6);
   }
 }
 
@@ -114,7 +101,7 @@ body::before {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(43, 3, 18, 0.8);
+  background: rgba(43, 3, 18, 0.9);
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #ff4d8d 0%, #c2185b 100%);

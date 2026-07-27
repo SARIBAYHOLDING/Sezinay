@@ -17,6 +17,7 @@ export interface MemoryLocation {
   coordinates: { x: number; y: number }; // percentage on mini map grid
   icon?: string;
   photoUrl?: string;
+  mapUrl?: string;
 }
 
 export interface VoiceNote {
