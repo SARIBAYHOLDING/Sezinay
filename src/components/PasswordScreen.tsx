@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { Lock, Heart, KeyRound, Sparkles, Delete, Flower2 } from 'lucide-react';
-import { RoseLoadingScreen } from './RoseLoadingScreen';
+import { InitialMasterpieceLoader } from './InitialMasterpieceLoader';
 
 interface PasswordScreenProps {
   correctCode: string;
@@ -10,13 +10,13 @@ interface PasswordScreenProps {
 }
 
 export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onSuccess }) => {
+  const [showInitialLoader, setShowInitialLoader] = useState<boolean>(true);
   const [digits, setDigits] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleKeyPress = (num: string) => {
-    if (digits.length < 6 && !isUnlocked && !isLoading) {
+    if (digits.length < 6 && !isUnlocked && !showInitialLoader) {
       const newDigits = [...digits, num];
       setDigits(newDigits);
       setError(false);
@@ -28,7 +28,7 @@ export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onS
   };
 
   const handleDelete = () => {
-    if (digits.length > 0 && !isUnlocked && !isLoading) {
+    if (digits.length > 0 && !isUnlocked && !showInitialLoader) {
       setDigits(digits.slice(0, -1));
       setError(false);
     }
@@ -37,7 +37,6 @@ export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onS
   const verifyCode = (enteredCode: string) => {
     if (enteredCode === correctCode) {
       setIsUnlocked(true);
-      setIsLoading(true);
       
       confetti({
         particleCount: 120,
@@ -45,6 +44,8 @@ export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onS
         origin: { y: 0.6 },
         colors: ['#ff4d8d', '#ff80ab', '#ffd700', '#c2185b', '#ffffff'],
       });
+
+      setTimeout(onSuccess, 500);
     } else {
       setError(true);
       setTimeout(() => {
@@ -55,8 +56,18 @@ export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onS
 
   return (
     <>
+      {/* 1. Initial 10-Second Masterpiece Loading Screen */}
       <AnimatePresence>
-        {!isUnlocked && (
+        {showInitialLoader && (
+          <InitialMasterpieceLoader
+            onComplete={() => setShowInitialLoader(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 2. Password Gate Vault Screen */}
+      <AnimatePresence>
+        {!showInitialLoader && !isUnlocked && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -186,16 +197,6 @@ export const PasswordScreen: React.FC<PasswordScreenProps> = ({ correctCode, onS
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 3D Rose Petal Loading Screen */}
-      {isLoading && (
-        <RoseLoadingScreen
-          onComplete={() => {
-            setIsLoading(false);
-            onSuccess();
-          }}
-        />
-      )}
     </>
   );
 };
