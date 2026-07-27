@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Flower2, Star, Camera } from 'lucide-react';
+import { animate, stagger } from 'animejs';
+import { Heart, Flower2, Star, Camera, Sparkles } from 'lucide-react';
 import { ThreeBackground } from './components/3d/ThreeBackground';
 import { TiltCard } from './components/3d/TiltCard';
 import { PasswordScreen } from './components/PasswordScreen';
@@ -11,6 +12,8 @@ import { LoveLetter } from './components/LoveLetter';
 import { LoveCounter } from './components/LoveCounter';
 import { MusicPlayer } from './components/MusicPlayer';
 import { SecretNotes } from './components/SecretNotes';
+import { AnimeStaggerHeader } from './components/anime/AnimeStaggerHeader';
+import { AnimeFloatingGrid } from './components/anime/AnimeFloatingGrid';
 import {
   PASSCODE,
   BOYFRIEND_NAME,
@@ -24,6 +27,20 @@ import {
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      setTimeout(() => {
+        animate('.anime-stagger-card', {
+          translateY: [60, 0],
+          opacity: [0, 1],
+          scale: [0.92, 1],
+          delay: stagger(120, { start: 200 }),
+          easing: 'easeOutElastic(1, 0.6)',
+        });
+      }, 100);
+    }
+  }, [isAuthenticated]);
+
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden selection:bg-pink-500 selection:text-white">
       {/* 1. 3D Animated Silk Curtain & Falling Rose Petals Canvas Background */}
@@ -36,11 +53,11 @@ export function App() {
           onSuccess={() => setIsAuthenticated(true)}
         />
       ) : (
-        /* 3. Main Dashboard / Deluxe Romantic 3D Experience */
+        /* 3. Main Dashboard / Deluxe Anime.js Powered Romantic 3D Experience */
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
           className="relative z-10 max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col items-center"
         >
           {/* Top Floating Music Player */}
@@ -69,22 +86,39 @@ export function App() {
               <Flower2 className="w-4 h-4 text-pink-400" /> {BOYFRIEND_NAME} & {GIRLFRIEND_NAME} 🌸
             </span>
 
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white font-heading tracking-tight drop-shadow-lg leading-tight">
-              Sonsuz Gül Bahçemiz <br />
-              <span className="font-handwriting text-5xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-amber-200">
-                Sezinay'ım ❤️
-              </span>
-            </h1>
+            {/* Anime.js Powered Staggered Typography Header */}
+            <div className="my-2">
+              <AnimeStaggerHeader
+                text="Sonsuz Gül Bahçemiz"
+                className="text-4xl md:text-6xl font-extrabold text-white font-heading tracking-tight drop-shadow-lg leading-tight block"
+              />
+              <div className="mt-2">
+                <AnimeStaggerHeader
+                  text="Sezinay'ım ❤️"
+                  className="font-handwriting text-5xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-amber-200 block"
+                />
+              </div>
+            </div>
 
             <p className="mt-4 text-pink-100/90 text-sm md:text-base max-w-xl mx-auto font-light leading-relaxed drop-shadow">
               17 Temmuz 2026'da başlayan hikayemize özel hazırladığım 3D interaktif pembe dünyamıza hoş geldin prensesim.
             </p>
+
+            {/* Anime.js Interactive Staggered Floating Wave Grid */}
+            <div className="mt-4">
+              <span className="text-xs text-pink-200/80 font-mono flex items-center justify-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Noktalara Dokunarak Dalga Efektini Başlat ✨
+              </span>
+              <AnimeFloatingGrid />
+            </div>
           </header>
 
           {/* Live Love Counter */}
-          <TiltCard className="w-full max-w-xl">
-            <LoveCounter />
-          </TiltCard>
+          <div className="anime-stagger-card w-full max-w-xl">
+            <TiltCard className="w-full">
+              <LoveCounter />
+            </TiltCard>
+          </div>
 
           {/* Section 1: "Scratch Me" Polaroid Photos Gallery */}
           <section className="w-full my-12">
@@ -100,57 +134,69 @@ export function App() {
               </p>
             </div>
 
-            {/* Grid of Scratch Polaroid Cards with 3D Tilt */}
+            {/* Grid of Scratch Polaroid Cards with Anime.js Stagger Entrance & 3D Tilt */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
               {INITIAL_PHOTOS.map((photo) => (
-                <TiltCard key={photo.id} className="w-full flex justify-center">
-                  <ScratchCard photo={photo} />
-                </TiltCard>
+                <div key={photo.id} className="anime-stagger-card w-full flex justify-center">
+                  <TiltCard className="w-full flex justify-center">
+                    <ScratchCard photo={photo} />
+                  </TiltCard>
+                </div>
               ))}
             </div>
           </section>
 
           {/* Section 2: 3D Flip Secret Love Notes */}
-          <SecretNotes />
+          <div className="anime-stagger-card w-full">
+            <SecretNotes />
+          </div>
 
           {/* Section 3: Memory Map & Voice Note & Cat Couple */}
           <section className="w-full my-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* Left: Memory Map */}
-            <TiltCard className="w-full">
-              <MemoryMap locations={MEMORY_LOCATIONS} />
-            </TiltCard>
+            <div className="anime-stagger-card w-full">
+              <TiltCard className="w-full">
+                <MemoryMap locations={MEMORY_LOCATIONS} />
+              </TiltCard>
+            </div>
 
             {/* Right: Black & White Cats Illustration & Voice Note */}
             <div className="flex flex-col gap-6 items-center lg:items-start w-full">
               {/* Cute Cat Couple Card Inspired by Reference Image 2 */}
-              <TiltCard className="w-full">
-                <div className="luxe-card p-6 w-full rounded-3xl border border-pink-300/40 text-center relative overflow-hidden flex flex-col items-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-pink-900 to-rose-950 flex items-center justify-center border-2 border-pink-300/50 shadow-inner mb-3 text-4xl">
-                    🐱🐾🐶
+              <div className="anime-stagger-card w-full">
+                <TiltCard className="w-full">
+                  <div className="luxe-card p-6 w-full rounded-3xl border border-pink-300/40 text-center relative overflow-hidden flex flex-col items-center">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-pink-900 to-rose-950 flex items-center justify-center border-2 border-pink-300/50 shadow-inner mb-3 text-4xl">
+                      🐱🐾🐶
+                    </div>
+                    <h4 className="text-lg font-bold text-white font-heading">
+                      Bizim Tatlı Ruh İkimiz (SELO & Sezinay)
+                    </h4>
+                    <p className="text-xs text-pink-200/90 mt-1">
+                      Siyah kedi & Beyaz kedi gibi birbirini tamamlayan en güzel çift! ❤️
+                    </p>
                   </div>
-                  <h4 className="text-lg font-bold text-white font-heading">
-                    Bizim Tatlı Ruh İkimiz (SELO & Sezinay)
-                  </h4>
-                  <p className="text-xs text-pink-200/90 mt-1">
-                    Siyah kedi & Beyaz kedi gibi birbirini tamamlayan en güzel çift! ❤️
-                  </p>
-                </div>
-              </TiltCard>
+                </TiltCard>
+              </div>
 
               {/* Voice Note Card */}
               {VOICE_NOTES.length > 0 && (
-                <TiltCard className="w-full">
-                  <VoiceNoteCard note={VOICE_NOTES[0]} />
-                </TiltCard>
+                <div className="anime-stagger-card w-full">
+                  <TiltCard className="w-full">
+                    <VoiceNoteCard note={VOICE_NOTES[0]} />
+                  </TiltCard>
+                </div>
               )}
             </div>
           </section>
 
           {/* Section 4: Wax-Sealed Romantic Love Letter */}
           <section className="w-full my-10">
-            <TiltCard className="w-full">
-              <LoveLetter letter={LOVE_LETTER} />
-            </TiltCard>
+            <div className="anime-stagger-card w-full">
+              <TiltCard className="w-full">
+                <LoveLetter letter={LOVE_LETTER} />
+              </TiltCard>
+            </div>
           </section>
 
           {/* Footer Note */}
