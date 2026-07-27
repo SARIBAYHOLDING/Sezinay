@@ -20,21 +20,21 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
   };
 
   return (
-    <div className="pink-glass-card p-5 md:p-6 w-full max-w-lg rounded-3xl border border-pink-300/40 shadow-2xl relative overflow-hidden">
+    <div className="luxe-card p-6 md:p-8 w-full max-w-lg mx-auto rounded-3xl border-2 border-pink-300/40 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[460px]">
       {/* Header Bar */}
       <div className="flex items-center justify-between mb-4 pb-3 border-b border-pink-300/20">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-pink-600/40 border border-pink-400/50 flex items-center justify-center text-pink-200">
-            <Navigation className="w-4 h-4" />
+          <div className="w-9 h-9 rounded-full bg-pink-600/40 border border-pink-400/50 flex items-center justify-center text-pink-200 shadow-md">
+            <Navigation className="w-4.5 h-4.5" />
           </div>
-          <div>
-            <h3 className="text-base font-bold text-white font-heading">Anı Haritamız (Memory Map)</h3>
-            <p className="text-xs text-pink-200/70">Aşkımızın İz Bıraktığı Özel Noktalar</p>
+          <div className="text-left">
+            <h3 className="text-lg font-bold text-white font-heading">Anı Haritamız (Memory Map)</h3>
+            <p className="text-xs text-pink-200/80">Aşkımızın İz Bıraktığı Özel Noktalar</p>
           </div>
         </div>
 
         {/* Zoom Controls (+ -) */}
-        <div className="flex items-center gap-1.5 pink-glass px-2 py-1 rounded-full border border-white/20 text-white text-xs">
+        <div className="flex items-center gap-1.5 luxe-glass px-2.5 py-1 rounded-full border border-white/30 text-white text-xs">
           <button
             onClick={() => setZoomLevel(Math.min(zoomLevel + 0.2, 1.4))}
             className="hover:text-pink-300 transition-colors p-1"
@@ -51,9 +51,8 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
         </div>
       </div>
 
-      {/* Satellite / Romantic Stylized Map View Container */}
-      <div className="relative w-full h-64 rounded-2xl overflow-hidden border border-pink-300/30 bg-rose-950/80 shadow-inner">
-        {/* Animated Grid Lines */}
+      {/* Map View Container */}
+      <div className="relative w-full h-64 rounded-2xl overflow-hidden border border-pink-300/40 bg-rose-950/90 shadow-inner flex-1 my-2">
         <div
           className="absolute inset-0 transition-transform duration-300 ease-out"
           style={{
@@ -66,7 +65,7 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
             backgroundSize: '100% 100%, 30px 30px, 30px 30px',
           }}
         >
-          {/* Decorative Path Line connecting pins */}
+          {/* Path */}
           <svg className="absolute inset-0 w-full h-full opacity-40 pointer-events-none">
             <path
               d="M 120 115 Q 220 70 330 85 T 250 180"
@@ -91,12 +90,10 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
             >
               <div className="relative">
                 {getIcon(loc.icon)}
-                {/* Pulse Ring */}
                 <div className="absolute -inset-1 rounded-full bg-pink-400 opacity-70 animate-ping pointer-events-none" />
               </div>
 
-              {/* Hover Tooltip Preview */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 px-2.5 py-1 rounded-lg bg-pink-950/95 text-white text-[11px] font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-pink-400/50 shadow-md">
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 px-2.5 py-1 rounded-lg bg-pink-950/95 text-white text-[11px] font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-pink-400/50 shadow-md z-30">
                 {loc.title}
               </div>
             </motion.button>
@@ -111,7 +108,7 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="mt-4 p-4 rounded-2xl bg-pink-950/95 border border-pink-400/50 backdrop-blur-md relative shadow-xl"
+            className="mt-3 p-4 rounded-2xl bg-pink-950/95 border border-pink-400/50 backdrop-blur-md relative shadow-xl text-left"
           >
             <button
               onClick={() => setSelectedLoc(null)}
@@ -138,17 +135,16 @@ export const MemoryMap: React.FC<MemoryMapProps> = ({ locations }) => {
                   {selectedLoc.title}
                 </h4>
                 <p className="text-xs text-pink-300 font-medium">{selectedLoc.location} • {selectedLoc.date}</p>
-                <p className="text-xs text-pink-100/90 mt-1.5 leading-relaxed">
+                <p className="text-xs text-pink-100/90 mt-1 leading-relaxed">
                   {selectedLoc.description}
                 </p>
 
-                {/* Direct Google Maps Link Button */}
                 {selectedLoc.mapUrl && (
                   <a
                     href={selectedLoc.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-600 to-rose-500 text-white text-xs font-semibold hover:from-pink-500 hover:to-rose-400 transition-all shadow-md"
+                    className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-600 to-rose-500 text-white text-xs font-semibold hover:from-pink-500 hover:to-rose-400 transition-all shadow-md"
                   >
                     <ExternalLink className="w-3.5 h-3.5" /> Konuma Haritada Git
                   </a>

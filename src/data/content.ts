@@ -14,7 +14,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: '17 Temmuz 2026',
     isScratchable: true,
     scratchText: 'Kazı beni Sezinay! ❤️',
-    rotation: -4,
+    rotation: 0,
   },
   {
     id: 'photo-2',
@@ -23,7 +23,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: 'Unutulmaz An',
     isScratchable: true,
     scratchText: 'Sürpriz Öpücük 💋',
-    rotation: 5,
+    rotation: 0,
   },
   {
     id: 'photo-6',
@@ -32,7 +32,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: '17 Temmuz 2026',
     isScratchable: true,
     scratchText: 'İlk Kahve Anımız ☕',
-    rotation: 2,
+    rotation: 0,
   },
   {
     id: 'photo-3',
@@ -41,7 +41,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: 'En Neşeli Günümüz',
     isScratchable: true,
     scratchText: 'Kazı & Gör 🤫',
-    rotation: -3,
+    rotation: 0,
   },
   {
     id: 'photo-4',
@@ -50,7 +50,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: 'Aşk Dolu Bir Gün',
     isScratchable: true,
     scratchText: 'Seni Çok Seviyorum 🌸',
-    rotation: 6,
+    rotation: 0,
   },
   {
     id: 'photo-5',
@@ -59,7 +59,7 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     date: 'Gülmekten Öldüğümüz An',
     isScratchable: true,
     scratchText: 'Bıyıklı Sevgililer 🤣',
-    rotation: -2,
+    rotation: 0,
   },
 ];
 
@@ -80,7 +80,7 @@ export const MEMORY_LOCATIONS: MemoryLocation[] = [
     title: 'Gittiğimiz Forum AVM 🛍️',
     location: 'Forum Alışveriş Merkezi',
     date: 'Unutulmaz Günlerimiz',
-    description: 'El ele gezdiğimiz, mağaazalara girip komik pozlar verdiğimiz ve anı biriktirdiğimiz yer.',
+    description: 'El ele gezdiğimiz, mağazalara girip komik pozlar verdiğimiz ve anı biriktirdiğimiz yer.',
     coordinates: { x: 65, y: 32 },
     icon: 'Flower2',
     photoUrl: '/photos/photo3.jpg',
