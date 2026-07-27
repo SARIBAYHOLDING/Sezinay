@@ -11,7 +11,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
   const [progress, setProgress] = useState<number>(0);
   const [stage, setStage] = useState<number>(1);
 
-  // 1. Realistic 3D Velvet Rose & Slow Dreamy Petal Floating Scene
+  // 1. WebGL 3D Swirling Rose Petals & Golden Stardust Scene Setup
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -30,11 +30,11 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
     scene.add(ambientLight);
 
-    const goldSpot = new THREE.SpotLight(0xffd700, 3);
+    const goldSpot = new THREE.SpotLight(0xffd700, 3.5);
     goldSpot.position.set(0, 25, 30);
     scene.add(goldSpot);
 
-    const velvetPinkLight = new THREE.PointLight(0xff2a6d, 4, 60);
+    const velvetPinkLight = new THREE.PointLight(0xff2a6d, 4.5, 60);
     velvetPinkLight.position.set(0, -10, 20);
     scene.add(velvetPinkLight);
 
@@ -56,7 +56,6 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
     const petalGeo = new THREE.ExtrudeGeometry(petalShape, petalExtrude);
     petalGeo.center();
 
-    // Velvet Rose Red/Pink Material
     const velvetRoseMat = new THREE.MeshPhongMaterial({
       color: 0xe61c5d,
       emissive: 0x6b0024,
@@ -65,7 +64,6 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       side: THREE.DoubleSide,
     });
 
-    // Silk White Petal Material
     const silkWhiteMat = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       emissive: 0xffe6ed,
@@ -108,7 +106,6 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       scene.add(mesh);
       petalInstances.push({
         mesh,
-        // Slow gentle floating speed (5x slower)
         speedY: 0.008 + Math.random() * 0.012,
         rotSpeed: new THREE.Vector3(
           (Math.random() - 0.5) * 0.01,
@@ -120,35 +117,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       });
     }
 
-    // 3. Realistic Layered 3D Rose Blossom Construction
-    const createRealisticRose = () => {
-      const roseGroup = new THREE.Group();
-      const numLayers = 6;
-      for (let layer = 0; layer < numLayers; layer++) {
-        const petalsInLayer = 3 + layer * 2;
-        const layerRadius = 0.2 + layer * 0.35;
-        for (let p = 0; p < petalsInLayer; p++) {
-          const petalMesh = new THREE.Mesh(petalGeo, velvetRoseMat.clone());
-          const scale = 0.5 + layer * 0.22;
-          petalMesh.scale.set(scale, scale, scale);
-
-          const a = (p / petalsInLayer) * Math.PI * 2 + layer * 0.5;
-          petalMesh.position.set(Math.cos(a) * layerRadius, Math.sin(a) * layerRadius, -layer * 0.15);
-          petalMesh.rotation.z = a + Math.PI / 2;
-          petalMesh.rotation.x = 0.4 + layer * 0.12;
-
-          roseGroup.add(petalMesh);
-        }
-      }
-      return roseGroup;
-    };
-
-    const centralRose = createRealisticRose();
-    centralRose.position.set(0, 3.8, -1);
-    centralRose.scale.set(0.9, 0.9, 0.9);
-    scene.add(centralRose);
-
-    // 4. Golden Stardust Soft Glitter Particles
+    // 3. Golden Stardust Soft Glitter Particles
     const dustCount = 200;
     const dustGeo = new THREE.BufferGeometry();
     const dustPos = new Float32Array(dustCount * 3);
@@ -168,7 +137,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
     const dustSystem = new THREE.Points(dustGeo, dustMat);
     scene.add(dustSystem);
 
-    // Animation Loop with Slow Dreamy Speed (5x slower)
+    // Animation Loop
     let animId: number;
     const startTime = performance.now();
 
@@ -176,15 +145,11 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       animId = requestAnimationFrame(animate);
       const elapsed = (performance.now() - startTime) * 0.001;
 
-      // Slow elegant 3D Rose Rotation
-      centralRose.rotation.z = elapsed * 0.08;
-      centralRose.rotation.y = Math.sin(elapsed * 0.3) * 0.15;
-
       dustSystem.rotation.y = elapsed * 0.02;
 
       // Gentle Dreamy Floating Petals
       petalInstances.forEach((petal) => {
-        petal.angle += 0.003; // Slow rotation
+        petal.angle += 0.003;
         petal.mesh.position.x = Math.cos(petal.angle) * petal.radius;
         petal.mesh.position.z = Math.sin(petal.angle) * petal.radius;
         petal.mesh.position.y -= petal.speedY;
@@ -257,44 +222,46 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       transition={{ duration: 1 }}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-rose-950 via-black to-pink-950 p-6 text-center overflow-hidden select-none"
     >
-      {/* 3D WebGL Canvas for Realistic Velvet Roses */}
+      {/* 3D WebGL Canvas for 3D Rose Petals */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
 
       {/* Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-pink-600/30 via-rose-500/20 to-amber-400/20 rounded-full blur-3xl pointer-events-none animate-pulse z-0" />
 
       {/* Main Content Carousel */}
-      <div className="relative z-10 max-w-xl w-full flex flex-col items-center justify-center mt-12">
+      <div className="relative z-10 max-w-xl w-full flex flex-col items-center justify-center mt-6">
+        {/* Floating Realistic Red Rose Graphic Accent */}
+        <motion.div
+          animate={{
+            y: [0, -12, 0],
+            rotate: [-4, 4, -4],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="w-28 h-40 md:w-36 md:h-52 mb-4 relative flex items-center justify-center filter drop-shadow-[0_15px_25px_rgba(255,77,141,0.6)]"
+        >
+          <img
+            src="/photos/red_rose.png"
+            alt="Selo & Sezinay Kırmızı Gül"
+            className="w-full h-full object-contain select-none"
+          />
+        </motion.div>
+
         <AnimatePresence mode="wait">
-          {/* STAGE 1 (0s - 2.8s): 3D Rose Petal Vortex & Intro */}
+          {/* STAGE 1 (0s - 2.8s): Intro */}
           {stage === 1 && (
             <motion.div
               key="stage-1"
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.1, y: -30 }}
+              exit={{ opacity: 0, scale: 1.1, y: -20 }}
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center"
             >
-              <div className="relative w-40 h-40 md:w-48 md:h-48 mb-6 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 rounded-full border-2 border-dashed border-amber-300/70 shadow-2xl"
-                />
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-rose-950"
-                >
-                  <img
-                    src="/photos/photo1.jpg"
-                    alt="SELO & Sezinay"
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-              </div>
-
               <h2 className="text-4xl md:text-6xl font-extrabold text-white font-heading tracking-wide mb-2 drop-shadow-2xl">
                 SELO & Sezinay
               </h2>
@@ -308,13 +275,13 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
           {stage === 2 && (
             <motion.div
               key="stage-2"
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.1, y: -30 }}
+              exit={{ opacity: 0, scale: 1.1, y: -20 }}
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center"
             >
-              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 rounded-3xl overflow-hidden border-4 border-amber-200/90 shadow-2xl bg-amber-50 p-2 transform -rotate-2">
+              <div className="relative w-40 h-40 md:w-48 md:h-48 mb-4 rounded-3xl overflow-hidden border-4 border-amber-200/90 shadow-2xl bg-amber-50 p-2 transform -rotate-2">
                 <img
                   src="/photos/photo6.jpg"
                   alt="İlk Kahvemiz"
@@ -322,7 +289,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
                 />
               </div>
 
-              <h3 className="font-handwriting text-3xl md:text-5xl text-amber-200 font-bold mb-2">
+              <h3 className="font-handwriting text-3xl md:text-4xl text-amber-200 font-bold mb-1">
                 "Kushimoto EspressoLab Kahvemiz..."
               </h3>
               <p className="text-pink-100 text-xs md:text-sm font-light">
@@ -335,17 +302,17 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
           {stage === 3 && (
             <motion.div
               key="stage-3"
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.1, y: -30 }}
+              exit={{ opacity: 0, scale: 1.1, y: -20 }}
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center"
             >
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full wax-seal-btn border-4 border-amber-300 flex items-center justify-center shadow-2xl text-amber-100 font-serif font-bold text-2xl md:text-3xl mb-6 animate-pulse">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full wax-seal-btn border-4 border-amber-300 flex items-center justify-center shadow-2xl text-amber-100 font-serif font-bold text-xl md:text-2xl mb-4 animate-pulse">
                 17.07.26
               </div>
 
-              <h3 className="text-3xl md:text-5xl font-extrabold text-white font-heading mb-2">
+              <h3 className="text-3xl md:text-5xl font-extrabold text-white font-heading mb-1">
                 17 Temmuz 2026
               </h3>
               <p className="text-pink-200 text-xs md:text-sm font-light">
@@ -358,13 +325,13 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
           {stage === 4 && (
             <motion.div
               key="stage-4"
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.1, y: -30 }}
+              exit={{ opacity: 0, scale: 1.1, y: -20 }}
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center"
             >
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-pink-600 to-amber-300 flex items-center justify-center shadow-2xl border-4 border-white mb-6">
+              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-tr from-pink-600 to-amber-300 flex items-center justify-center shadow-2xl border-4 border-white mb-4">
                 <img
                   src="/photos/photo2.jpg"
                   alt="Sezinay & SELO"
@@ -372,18 +339,18 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
                 />
               </div>
 
-              <h3 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-200 to-amber-200 font-heading mb-2">
+              <h3 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-200 to-amber-200 font-heading mb-1">
                 Hoş Geldin Sezinay'ım ❤️
               </h3>
               <p className="text-pink-100 text-xs md:text-sm font-light">
-                Sana Özel Tasarladığım 3D Gül Bahçesi Açılıyor... 🌹
+                Sana Özel Tasarladığım Gül Bahçesi Açılıyor... 🌹
               </p>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* 10.5-Second Progress Bar */}
-        <div className="w-full mt-8 px-4">
+        <div className="w-full mt-6 px-4">
           <div className="w-full h-3 rounded-full bg-black/60 p-0.5 border border-pink-400/50 shadow-inner overflow-hidden mb-2">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-pink-500 via-rose-400 to-amber-300 shadow-lg"
