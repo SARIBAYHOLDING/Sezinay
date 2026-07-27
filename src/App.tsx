@@ -10,7 +10,6 @@ import { SpotifyBlendCard } from './components/SpotifyBlendCard';
 import { MemoryMap } from './components/MemoryMap';
 import { LoveLetter } from './components/LoveLetter';
 import { LoveCounter } from './components/LoveCounter';
-import { MusicPlayer } from './components/MusicPlayer';
 import { SecretNotes } from './components/SecretNotes';
 import { AnimeStaggerHeader } from './components/anime/AnimeStaggerHeader';
 import {
@@ -58,9 +57,6 @@ export function App() {
           transition={{ duration: 1 }}
           className="relative z-10 w-full max-w-5xl mx-auto px-4 py-8 md:py-12 flex flex-col items-center justify-center text-center"
         >
-          {/* Top Floating Music Player */}
-          <MusicPlayer />
-
           {/* Hero Banner Section */}
           <header className="text-center my-6 md:my-10 relative flex flex-col items-center justify-center w-full">
             {/* Centered Symmetrical Badges */}
