@@ -105,7 +105,7 @@ export const VOICE_NOTES: VoiceNote[] = [
     duration: '0:42',
     date: '17 Temmuz 2026',
     sender: 'SELO',
-    transcript: 'İyi ki hayatımdasın Sezinay, pembe güller kadar zarif ve özelsin benim için. Seni her geçen gün daha çok seviyorum...',
+    transcript: 'İyi ki hayatımdasın Sezinay, güller kadar özelsin benim için. Seni her geçen gün daha çok seviyorum...',
   },
 ];
 
@@ -115,8 +115,8 @@ export const LOVE_LETTER: LoveLetterData = {
   title: 'Benim Canım Sezinay\'ıma 🌸',
   paragraphs: [
     'Hayatıma girdiğin ilk andan itibaren etrafımdaki her şey daha parlak, daha renkli ve çok daha anlamlı hale geldi.',
-    'Senin en sevdiğin pembe güller gibi; zarafetin, güzelliğin ve içini ısıtan gülüşünle her günümü bir bayrama çeviriyorsun. 17 Temmuz 2026 tarihi benim hayatımın en özel dönüm noktası oldu.',
-    'Bu siteyi sadece senin için, her detayına emek vererek hazırladım. Seni dünyadaki tüm pembe güllerden daha çok seviyorum güzel sevgilim.',
+    'Senin en sevdiğin güller gibi; güzelliğin ve içini ısıtan gülüşünle her günümü bir bayrama çeviriyorsun. 17 Temmuz 2026 tarihi benim hayatımın en özel dönüm noktası oldu.',
+    'Bu siteyi sadece senin için, her detayına emek vererek hazırladım. Seni dünyadaki tüm güllerden daha çok seviyorum güzel sevgilim.',
   ],
   signatureDate: '17.07.2026 - Sonsuza Dek',
 };

@@ -57,6 +57,25 @@ export function App() {
           transition={{ duration: 1 }}
           className="relative z-10 w-full max-w-5xl mx-auto px-4 py-8 md:py-12 flex flex-col items-center justify-center text-center"
         >
+          {/* Floating Animated "ÖMRÜÜÜMMMM ❤️" Badge in Bottom Right Corner */}
+          <motion.div
+            animate={{
+              y: [0, -8, 0],
+              rotate: [-3, 3, -3],
+              scale: [1, 1.06, 1],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="fixed bottom-6 right-6 z-40 pointer-events-none select-none"
+          >
+            <div className="px-5 py-2.5 rounded-full luxe-glass border-2 border-pink-400/60 shadow-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-200 to-amber-200 font-extrabold text-lg md:text-xl font-heading tracking-widest flex items-center gap-2 drop-shadow-xl bg-black/40 backdrop-blur-md">
+              <Heart className="w-5 h-5 text-pink-400 fill-pink-400 animate-pulse" /> ÖMRÜÜÜMMMM ❤️
+            </div>
+          </motion.div>
+
           {/* Hero Banner Section */}
           <header className="text-center my-6 md:my-10 relative flex flex-col items-center justify-center w-full">
             {/* Centered Symmetrical Badges */}
