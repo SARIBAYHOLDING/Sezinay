@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { animate, stagger } from 'animejs';
-import { Heart, Flower2, Star, Camera } from 'lucide-react';
+import { Heart, Flower2, Star } from 'lucide-react';
 import { ThreeBackground } from './components/3d/ThreeBackground';
 import { TiltCard } from './components/3d/TiltCard';
 import { PasswordScreen } from './components/PasswordScreen';
-import { ScratchCard } from './components/ScratchCard';
+import { PhotoTimelineGallery } from './components/PhotoTimelineGallery';
 import { SpotifyBlendCard } from './components/SpotifyBlendCard';
 import { MemoryMap } from './components/MemoryMap';
 import { LoveLetter } from './components/LoveLetter';
@@ -112,38 +112,15 @@ export function App() {
             </TiltCard>
           </div>
 
-          {/* Section 1: "Scratch Me" Polaroid Photos Gallery */}
-          <section className="w-full my-10 text-center flex flex-col items-center">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 text-amber-300 text-xs font-mono uppercase tracking-wider mb-1">
-                <Camera className="w-4 h-4" /> İnteraktif Anılarımız
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white font-heading drop-shadow-lg">
-                Kazı & Keşfet Polaroid Kartları ✨
-              </h2>
-              <p className="text-xs md:text-sm text-pink-100/90 mt-1">
-                Kartların üzerini fareyle veya parmağınla kazıyarak altındaki sürpriz fotoğraflarımızı aç! 🤫
-              </p>
-            </div>
-
-            {/* Grid of Scratch Polaroid Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center justify-center w-full max-w-5xl mx-auto">
-              {INITIAL_PHOTOS.map((photo) => (
-                <div key={photo.id} className="anime-stagger-card w-full flex justify-center">
-                  <TiltCard className="w-full flex justify-center">
-                    <ScratchCard photo={photo} />
-                  </TiltCard>
-                </div>
-              ))}
-            </div>
-          </section>
+          {/* Section 1: 3D Scroll-Driven Photo Timeline Gallery */}
+          <PhotoTimelineGallery photos={INITIAL_PHOTOS} />
 
           {/* Section 2: 3D Flip Secret Love Notes */}
           <div className="anime-stagger-card w-full text-center flex justify-center my-6">
             <SecretNotes />
           </div>
 
-          {/* Section 3: Memory Map & Spotify Blend Card (Perfect 2-Column Equal Heights) */}
+          {/* Section 3: Memory Map & Spotify Blend Card (Equal Heights) */}
           <section className="w-full my-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch justify-center max-w-5xl mx-auto">
             {/* Left: Memory Map */}
             <div className="anime-stagger-card w-full flex justify-center h-full">
