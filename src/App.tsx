@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { animate, stagger } from 'animejs';
-import { Heart, Flower2, Star, Camera, Sparkles } from 'lucide-react';
+import { Heart, Flower2, Star, Camera } from 'lucide-react';
 import { ThreeBackground } from './components/3d/ThreeBackground';
 import { TiltCard } from './components/3d/TiltCard';
 import { PasswordScreen } from './components/PasswordScreen';
@@ -13,7 +13,6 @@ import { LoveCounter } from './components/LoveCounter';
 import { MusicPlayer } from './components/MusicPlayer';
 import { SecretNotes } from './components/SecretNotes';
 import { AnimeStaggerHeader } from './components/anime/AnimeStaggerHeader';
-import { AnimeFloatingGrid } from './components/anime/AnimeFloatingGrid';
 import {
   PASSCODE,
   BOYFRIEND_NAME,
@@ -102,14 +101,6 @@ export function App() {
             <p className="mt-4 text-pink-100 text-sm md:text-base max-w-xl mx-auto font-light leading-relaxed drop-shadow">
               17 Temmuz 2026'da başlayan hikayemize özel hazırladığım 3D interaktif pembe dünyamıza hoş geldin prensesim.
             </p>
-
-            {/* Anime.js Interactive Staggered Floating Wave Grid */}
-            <div className="mt-6 flex flex-col items-center justify-center">
-              <span className="text-xs text-white/90 font-mono flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full bg-pink-950/70 border border-pink-400/40">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Otomatik Dalga Efekti & Noktalara Dokunarak Dalgalandır ✨
-              </span>
-              <AnimeFloatingGrid />
-            </div>
           </header>
 
           {/* Live Love Counter */}
