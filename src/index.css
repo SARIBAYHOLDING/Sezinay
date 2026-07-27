@@ -7,10 +7,9 @@
 
   --color-pink-primary: #ff4d8d;
   --color-pink-deep: #c2185b;
-  --color-pink-light: #fff0f5;
   --color-rose-glow: #ff80ab;
   --color-gold: #ffd700;
-  --color-wine: #5c0620;
+  --color-amber-glow: #f59e0b;
 }
 
 * {
@@ -30,31 +29,59 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Glassmorphism Cards with 3D Depth Shadows */
-.pink-glass {
-  background: rgba(255, 240, 245, 0.14);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 182, 193, 0.3);
+/* Glassmorphism Deluxe System */
+.luxe-glass {
+  background: rgba(255, 230, 240, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 182, 193, 0.35);
   box-shadow: 
-    0 16px 40px 0 rgba(194, 24, 91, 0.3),
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(255, 77, 141, 0.25),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
-.pink-glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 182, 193, 0.12) 100%);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
+.luxe-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 128, 171, 0.08) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
-    0 25px 60px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(255, 105, 180, 0.3);
-  border-radius: 24px;
+    0 30px 70px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(255, 77, 141, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  border-radius: 28px;
 }
 
-.gold-border {
-  border: 2px solid rgba(255, 215, 0, 0.7);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+/* Shimmering Animated Gold Border */
+.gold-shimmer-border {
+  position: relative;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 182, 193, 0.08) 100%);
+  backdrop-filter: blur(20px);
+}
+
+.gold-shimmer-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  padding: 2px;
+  background: linear-gradient(90deg, #ffd700, #ff4d8d, #ffffff, #ffd700);
+  background-size: 300% 300%;
+  animation: goldSweep 6s ease infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes goldSweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Font Classes */
@@ -66,7 +93,7 @@ html, body {
   font-family: var(--font-heading);
 }
 
-/* Leopard Star Pattern Cutout Effect */
+/* Leopard Star Cutout Style */
 .leopard-star {
   background: 
     radial-gradient(circle at 30% 30%, #5c2c16 15%, transparent 20%),
@@ -74,10 +101,19 @@ html, body {
     radial-gradient(circle at 40% 80%, #69341b 12%, transparent 16%),
     #d4a359;
   background-size: 20px 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
-/* 3D Tilt Container Perspective */
+/* Wax Seal Stamp Button */
+.wax-seal-btn {
+  background: radial-gradient(circle at 30% 30%, #e11d48, #881337);
+  box-shadow: 
+    0 8px 25px rgba(136, 19, 55, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* 3D Perspective Utility */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -85,10 +121,10 @@ html, body {
 /* Pulsing Glow Animation */
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(255, 77, 141, 0.5), 0 0 35px rgba(255, 77, 141, 0.3);
+    box-shadow: 0 0 20px rgba(255, 77, 141, 0.6), 0 0 45px rgba(255, 77, 141, 0.35);
   }
   50% {
-    box-shadow: 0 0 30px rgba(255, 77, 141, 0.9), 0 0 60px rgba(255, 77, 141, 0.6);
+    box-shadow: 0 0 35px rgba(255, 77, 141, 0.95), 0 0 70px rgba(255, 77, 141, 0.65);
   }
 }
 

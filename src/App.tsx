@@ -10,6 +10,7 @@ import { MemoryMap } from './components/MemoryMap';
 import { LoveLetter } from './components/LoveLetter';
 import { LoveCounter } from './components/LoveCounter';
 import { MusicPlayer } from './components/MusicPlayer';
+import { SecretNotes } from './components/SecretNotes';
 import {
   PASSCODE,
   BOYFRIEND_NAME,
@@ -35,7 +36,7 @@ export function App() {
           onSuccess={() => setIsAuthenticated(true)}
         />
       ) : (
-        /* 3. Main Dashboard / Romantic 3D Experience */
+        /* 3. Main Dashboard / Deluxe Romantic 3D Experience */
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,7 +65,7 @@ export function App() {
               <Heart className="w-7 h-7 fill-pink-400 text-pink-400" />
             </motion.div>
 
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full pink-glass border border-pink-300/40 text-pink-200 text-xs md:text-sm font-semibold tracking-widest uppercase mb-4 shadow-lg animate-pulse-glow">
+            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full luxe-glass border border-pink-300/40 text-pink-200 text-xs md:text-sm font-semibold tracking-widest uppercase mb-4 shadow-lg animate-pulse-glow">
               <Flower2 className="w-4 h-4 text-pink-400" /> {BOYFRIEND_NAME} & {GIRLFRIEND_NAME} 🌸
             </span>
 
@@ -109,7 +110,10 @@ export function App() {
             </div>
           </section>
 
-          {/* Section 2: Memory Map & Voice Note & Cat Couple */}
+          {/* Section 2: 3D Flip Secret Love Notes */}
+          <SecretNotes />
+
+          {/* Section 3: Memory Map & Voice Note & Cat Couple */}
           <section className="w-full my-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* Left: Memory Map */}
             <TiltCard className="w-full">
@@ -120,7 +124,7 @@ export function App() {
             <div className="flex flex-col gap-6 items-center lg:items-start w-full">
               {/* Cute Cat Couple Card Inspired by Reference Image 2 */}
               <TiltCard className="w-full">
-                <div className="pink-glass-card p-6 w-full rounded-3xl border border-pink-300/40 text-center relative overflow-hidden flex flex-col items-center">
+                <div className="luxe-card p-6 w-full rounded-3xl border border-pink-300/40 text-center relative overflow-hidden flex flex-col items-center">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-pink-900 to-rose-950 flex items-center justify-center border-2 border-pink-300/50 shadow-inner mb-3 text-4xl">
                     🐱🐾🐶
                   </div>
@@ -142,7 +146,7 @@ export function App() {
             </div>
           </section>
 
-          {/* Section 3: Wax-Sealed Romantic Love Letter */}
+          {/* Section 4: Wax-Sealed Romantic Love Letter */}
           <section className="w-full my-10">
             <TiltCard className="w-full">
               <LoveLetter letter={LOVE_LETTER} />
