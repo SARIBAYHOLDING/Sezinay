@@ -9,7 +9,7 @@ export const ThreeBackground: React.FC = () => {
 
     // 1. Scene, Camera, Renderer Setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x3a0216, 0.012);
+    scene.fog = new THREE.FogExp2(0x3a0216, 0.015);
 
     const camera = new THREE.PerspectiveCamera(
       55,
@@ -25,7 +25,7 @@ export const ThreeBackground: React.FC = () => {
     containerRef.current.appendChild(renderer.domElement);
 
     // 2. Ambient & Accent Spot Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     scene.add(ambientLight);
 
     const whiteSpot = new THREE.SpotLight(0xffffff, 3.5);
@@ -61,7 +61,7 @@ export const ThreeBackground: React.FC = () => {
       originalZ[i] = posAttr.getZ(i);
     }
 
-    // 4. Falling 3D Rose Petals Engine (Mixed Pink & Silk White Petals)
+    // 4. Falling 3D Rose Petals Engine (Restrained Z Depth to stay behind UI)
     const petalShape = new THREE.Shape();
     petalShape.moveTo(0, 0);
     petalShape.bezierCurveTo(0.8, 0.6, 1.2, 1.8, 0.4, 2.5);
@@ -103,18 +103,19 @@ export const ThreeBackground: React.FC = () => {
       swayOffset: number;
     }[] = [];
 
-    const numPetals = 75;
+    const numPetals = 60;
     for (let i = 0; i < numPetals; i++) {
       const isWhite = i % 3 === 0;
       const mat = isWhite ? whitePetalMat.clone() : pinkPetalMat.clone();
       const mesh = new THREE.Mesh(petalGeo, mat);
-      const s = 0.4 + Math.random() * 0.7;
+      const s = 0.35 + Math.random() * 0.5;
       mesh.scale.set(s, s, s);
 
+      // Keep Z between -20 and 0 so petals stay safely in the background
       mesh.position.set(
-        (Math.random() - 0.5) * 65,
-        Math.random() * 50 - 15,
-        (Math.random() - 0.5) * 35
+        (Math.random() - 0.5) * 60,
+        Math.random() * 45 - 15,
+        -5 - Math.random() * 15
       );
 
       mesh.rotation.set(
@@ -126,12 +127,12 @@ export const ThreeBackground: React.FC = () => {
       scene.add(mesh);
       petalInstances.push({
         mesh,
-        speedY: 0.04 + Math.random() * 0.06,
+        speedY: 0.03 + Math.random() * 0.05,
         speedX: (Math.random() - 0.5) * 0.02,
         rotSpeed: new THREE.Vector3(
-          (Math.random() - 0.5) * 0.03,
-          (Math.random() - 0.5) * 0.03,
-          (Math.random() - 0.5) * 0.03
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02
         ),
         swayOffset: Math.random() * Math.PI * 2,
       });
@@ -149,12 +150,12 @@ export const ThreeBackground: React.FC = () => {
     heartShape.bezierCurveTo(x + 0.7, y, x + 0.5, y + 0.5, x + 0.5, y + 0.5);
 
     const heartExtrude = {
-      depth: 0.4,
+      depth: 0.3,
       bevelEnabled: true,
       bevelSegments: 3,
       steps: 1,
-      bevelSize: 0.2,
-      bevelThickness: 0.2,
+      bevelSize: 0.15,
+      bevelThickness: 0.15,
     };
     const heartGeo = new THREE.ExtrudeGeometry(heartShape, heartExtrude);
     heartGeo.center();
@@ -167,16 +168,16 @@ export const ThreeBackground: React.FC = () => {
     });
 
     const heartInstances: { mesh: THREE.Mesh; basePosY: number }[] = [];
-    const numHearts = 16;
+    const numHearts = 14;
     for (let i = 0; i < numHearts; i++) {
       const mesh = new THREE.Mesh(heartGeo, heartMat.clone());
-      const s = 0.5 + Math.random() * 0.8;
+      const s = 0.4 + Math.random() * 0.6;
       mesh.scale.set(s, s, s);
 
       mesh.position.set(
-        (Math.random() - 0.5) * 50,
-        (Math.random() - 0.5) * 35,
-        (Math.random() - 0.5) * 25
+        (Math.random() - 0.5) * 45,
+        (Math.random() - 0.5) * 30,
+        -5 - Math.random() * 15
       );
 
       mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
@@ -208,7 +209,7 @@ export const ThreeBackground: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Animation Loop with performance.now()
+    // Animation Loop
     let animId: number;
     const startTime = performance.now();
 
@@ -216,8 +217,8 @@ export const ThreeBackground: React.FC = () => {
       animId = requestAnimationFrame(animate);
       const elapsed = (performance.now() - startTime) * 0.001;
 
-      targetX += (mouseX * 4 - targetX) * 0.05;
-      targetY += (mouseY * 4 - targetY) * 0.05;
+      targetX += (mouseX * 3 - targetX) * 0.05;
+      targetY += (mouseY * 3 - targetY) * 0.05;
       camera.position.x = targetX;
       camera.position.y = targetY;
       camera.lookAt(0, 0, 0);
@@ -238,16 +239,15 @@ export const ThreeBackground: React.FC = () => {
       // Falling Petals
       petalInstances.forEach((petal, idx) => {
         petal.mesh.position.y -= petal.speedY;
-        petal.mesh.position.x += Math.sin(elapsed * 2 + petal.swayOffset + idx) * 0.03;
-        petal.mesh.position.z += Math.cos(elapsed * 1.5 + idx) * 0.02;
+        petal.mesh.position.x += Math.sin(elapsed * 2 + petal.swayOffset + idx) * 0.02;
 
         petal.mesh.rotation.x += petal.rotSpeed.x;
         petal.mesh.rotation.y += petal.rotSpeed.y;
         petal.mesh.rotation.z += petal.rotSpeed.z;
 
-        if (petal.mesh.position.y < -25) {
-          petal.mesh.position.y = 25;
-          petal.mesh.position.x = (Math.random() - 0.5) * 65;
+        if (petal.mesh.position.y < -22) {
+          petal.mesh.position.y = 22;
+          petal.mesh.position.x = (Math.random() - 0.5) * 60;
         }
       });
 
@@ -269,7 +269,6 @@ export const ThreeBackground: React.FC = () => {
       if (containerRef.current && renderer.domElement) {
         containerRef.current.removeChild(renderer.domElement);
       }
-      // Memory cleanup
       curtainGeo.dispose();
       curtainMat.dispose();
       petalGeo.dispose();

@@ -60,18 +60,18 @@ export function App() {
           {/* Floating Animated "ÖMRÜÜÜMMMM ❤️" Badge in Bottom Right Corner */}
           <motion.div
             animate={{
-              y: [0, -8, 0],
-              rotate: [-3, 3, -3],
-              scale: [1, 1.06, 1],
+              y: [0, -6, 0],
+              rotate: [-2, 2, -2],
+              scale: [1, 1.04, 1],
             }}
             transition={{
               duration: 4,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="fixed bottom-6 right-6 z-40 pointer-events-none select-none"
+            className="fixed bottom-6 right-6 z-50 pointer-events-none select-none"
           >
-            <div className="px-5 py-2.5 rounded-full luxe-glass border-2 border-pink-400/60 shadow-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-200 to-amber-200 font-extrabold text-lg md:text-xl font-heading tracking-widest flex items-center gap-2 drop-shadow-xl bg-black/40 backdrop-blur-md">
+            <div className="px-5 py-2.5 rounded-full bg-pink-950/90 border-2 border-pink-300/80 shadow-2xl text-white font-extrabold text-base md:text-lg font-heading tracking-widest flex items-center gap-2 backdrop-blur-xl border border-white/40">
               <Heart className="w-5 h-5 text-pink-400 fill-pink-400 animate-pulse" /> ÖMRÜÜÜMMMM ❤️
             </div>
           </motion.div>
