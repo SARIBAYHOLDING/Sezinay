@@ -11,31 +11,31 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
   const [progress, setProgress] = useState<number>(0);
   const [stage, setStage] = useState<number>(1);
 
-  // 1. WebGL 3D Swirling Rose Petals & Blooming Rose Scene Setup
+  // 1. 20x Upgraded WebGL 3D Double Rose & Swirling Rose Petals Scene
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x2a0212, 0.015);
+    scene.fog = new THREE.FogExp2(0x2a0212, 0.012);
 
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 22);
+    camera.position.set(0, 0, 24);
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.6);
     scene.add(ambientLight);
 
-    const spotLight = new THREE.SpotLight(0xffd700, 3);
-    spotLight.position.set(0, 20, 25);
+    const spotLight = new THREE.SpotLight(0xffd700, 3.5);
+    spotLight.position.set(0, 25, 30);
     scene.add(spotLight);
 
-    const pinkLight = new THREE.PointLight(0xff4d8d, 4, 50);
-    pinkLight.position.set(0, -10, 15);
+    const pinkLight = new THREE.PointLight(0xff4d8d, 4.5, 60);
+    pinkLight.position.set(0, -12, 20);
     scene.add(pinkLight);
 
     // 2. 3D Rose Petal Extrude Geometry
@@ -46,7 +46,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
     petalShape.bezierCurveTo(-1.0, 0.5, -0.5, 0.1, 0, 0);
 
     const petalExtrude = {
-      depth: 0.06,
+      depth: 0.07,
       bevelEnabled: true,
       bevelSegments: 3,
       steps: 1,
@@ -60,7 +60,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       color: 0xff2a6d,
       emissive: 0x880e4f,
       specular: 0xffffff,
-      shininess: 90,
+      shininess: 95,
       side: THREE.DoubleSide,
     });
 
@@ -76,25 +76,25 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       mesh: THREE.Mesh;
       speedY: number;
       rotSpeed: THREE.Vector3;
-      swayOffset: number;
       radius: number;
       angle: number;
     }[] = [];
 
-    const numPetals = 65;
+    // 120 Swirling 3D Rose Petals
+    const numPetals = 120;
     for (let i = 0; i < numPetals; i++) {
       const isWhite = i % 3 === 0;
       const mat = isWhite ? whitePetalMat.clone() : pinkPetalMat.clone();
       const mesh = new THREE.Mesh(petalGeo, mat);
-      const s = 0.5 + Math.random() * 0.8;
+      const s = 0.4 + Math.random() * 0.9;
       mesh.scale.set(s, s, s);
 
-      const radius = 6 + Math.random() * 16;
+      const radius = 5 + Math.random() * 22;
       const angle = Math.random() * Math.PI * 2;
       mesh.position.set(
         Math.cos(angle) * radius,
-        (Math.random() - 0.5) * 30,
-        (Math.random() - 0.5) * 20
+        (Math.random() - 0.5) * 35,
+        (Math.random() - 0.5) * 25
       );
 
       mesh.rotation.set(
@@ -106,39 +106,69 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       scene.add(mesh);
       petalInstances.push({
         mesh,
-        speedY: 0.03 + Math.random() * 0.05,
+        speedY: 0.03 + Math.random() * 0.06,
         rotSpeed: new THREE.Vector3(
-          (Math.random() - 0.5) * 0.04,
-          (Math.random() - 0.5) * 0.04,
-          (Math.random() - 0.5) * 0.04
+          (Math.random() - 0.5) * 0.05,
+          (Math.random() - 0.5) * 0.05,
+          (Math.random() - 0.5) * 0.05
         ),
-        swayOffset: Math.random() * Math.PI * 2,
         radius,
         angle,
       });
     }
 
-    // 3. Central 3D Rose Blossom Construction (Layered spiraling petals)
-    const roseGroup = new THREE.Group();
-    const numLayers = 5;
-    for (let layer = 0; layer < numLayers; layer++) {
-      const petalsInLayer = 4 + layer * 3;
-      const layerRadius = 0.4 + layer * 0.45;
-      for (let p = 0; p < petalsInLayer; p++) {
-        const petalMesh = new THREE.Mesh(petalGeo, pinkPetalMat.clone());
-        const scale = 0.6 + layer * 0.25;
-        petalMesh.scale.set(scale, scale, scale);
+    // 3. Double 3D Rose Blossoms (SELO & Sezinay Twin Roses)
+    const createRoseMesh = () => {
+      const group = new THREE.Group();
+      const numLayers = 6;
+      for (let layer = 0; layer < numLayers; layer++) {
+        const petalsInLayer = 4 + layer * 3;
+        const layerRadius = 0.35 + layer * 0.4;
+        for (let p = 0; p < petalsInLayer; p++) {
+          const petalMesh = new THREE.Mesh(petalGeo, pinkPetalMat.clone());
+          const scale = 0.55 + layer * 0.22;
+          petalMesh.scale.set(scale, scale, scale);
 
-        const a = (p / petalsInLayer) * Math.PI * 2 + (layer * 0.4);
-        petalMesh.position.set(Math.cos(a) * layerRadius, Math.sin(a) * layerRadius, -layer * 0.2);
-        petalMesh.rotation.z = a + Math.PI / 2;
-        petalMesh.rotation.x = 0.3 + layer * 0.15;
+          const a = (p / petalsInLayer) * Math.PI * 2 + (layer * 0.4);
+          petalMesh.position.set(Math.cos(a) * layerRadius, Math.sin(a) * layerRadius, -layer * 0.18);
+          petalMesh.rotation.z = a + Math.PI / 2;
+          petalMesh.rotation.x = 0.35 + layer * 0.12;
 
-        roseGroup.add(petalMesh);
+          group.add(petalMesh);
+        }
       }
+      return group;
+    };
+
+    const roseLeft = createRoseMesh();
+    roseLeft.position.set(-3.2, 4.2, -1);
+    roseLeft.scale.set(0.85, 0.85, 0.85);
+    scene.add(roseLeft);
+
+    const roseRight = createRoseMesh();
+    roseRight.position.set(3.2, 4.2, -1);
+    roseRight.scale.set(0.85, 0.85, 0.85);
+    scene.add(roseRight);
+
+    // 4. Golden Stardust Particles
+    const dustCount = 300;
+    const dustGeo = new THREE.BufferGeometry();
+    const dustPos = new Float32Array(dustCount * 3);
+    for (let i = 0; i < dustCount; i++) {
+      dustPos[i * 3] = (Math.random() - 0.5) * 50;
+      dustPos[i * 3 + 1] = (Math.random() - 0.5) * 50;
+      dustPos[i * 3 + 2] = (Math.random() - 0.5) * 30;
     }
-    roseGroup.position.set(0, 3.5, -2);
-    scene.add(roseGroup);
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+    const dustMat = new THREE.PointsMaterial({
+      color: 0xffd700,
+      size: 0.2,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending,
+    });
+    const dustSystem = new THREE.Points(dustGeo, dustMat);
+    scene.add(dustSystem);
 
     // Animation Loop
     let animId: number;
@@ -148,13 +178,18 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       animId = requestAnimationFrame(animate);
       const elapsed = (performance.now() - startTime) * 0.001;
 
-      // Rotate Central 3D Rose Blossom
-      roseGroup.rotation.z = elapsed * 0.4;
-      roseGroup.rotation.y = Math.sin(elapsed * 0.5) * 0.2;
+      // Rotate Double 3D Roses in Romantic Harmony
+      roseLeft.rotation.z = elapsed * 0.45;
+      roseLeft.rotation.y = Math.sin(elapsed * 0.6) * 0.25;
 
-      // Swirl 3D Rose Petals Vortex
+      roseRight.rotation.z = -elapsed * 0.45;
+      roseRight.rotation.y = Math.cos(elapsed * 0.6) * 0.25;
+
+      dustSystem.rotation.y = elapsed * 0.1;
+
+      // Swirl 120 3D Rose Petals
       petalInstances.forEach((petal) => {
-        petal.angle += 0.012;
+        petal.angle += 0.014;
         petal.mesh.position.x = Math.cos(petal.angle) * petal.radius;
         petal.mesh.position.z = Math.sin(petal.angle) * petal.radius;
         petal.mesh.position.y -= petal.speedY;
@@ -163,8 +198,8 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
         petal.mesh.rotation.y += petal.rotSpeed.y;
         petal.mesh.rotation.z += petal.rotSpeed.z;
 
-        if (petal.mesh.position.y < -18) {
-          petal.mesh.position.y = 18;
+        if (petal.mesh.position.y < -20) {
+          petal.mesh.position.y = 20;
         }
       });
 
@@ -187,6 +222,8 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       petalGeo.dispose();
       pinkPetalMat.dispose();
       whitePetalMat.dispose();
+      dustGeo.dispose();
+      dustMat.dispose();
       renderer.dispose();
     };
   }, []);
@@ -225,7 +262,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       transition={{ duration: 1 }}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-rose-950 via-black to-pink-950 p-6 text-center overflow-hidden select-none"
     >
-      {/* 3D WebGL Canvas for 3D Roses and Swirling Rose Petals */}
+      {/* 3D WebGL Canvas for Double 3D Roses and 120 Swirling Rose Petals */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
 
       {/* Radial Glow Overlay */}
@@ -234,7 +271,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
       {/* Main Content Carousel */}
       <div className="relative z-10 max-w-xl w-full flex flex-col items-center justify-center mt-12">
         <AnimatePresence mode="wait">
-          {/* STAGE 1 (0s - 2.8s): 3D Rose Petal Vortex & Intro */}
+          {/* STAGE 1 (0s - 2.8s): 3D Rose Vortex & Intro */}
           {stage === 1 && (
             <motion.div
               key="stage-1"
@@ -267,7 +304,7 @@ export const InitialMasterpieceLoader: React.FC<InitialMasterpieceLoaderProps> =
                 SELO & Sezinay
               </h2>
               <p className="text-pink-200 text-sm md:text-base font-light tracking-widest uppercase">
-                3D Gül Bahçemiz Yükleniyor... 🌹
+                Sabret Ömrüm... ❤️ 🌹
               </p>
             </motion.div>
           )}
