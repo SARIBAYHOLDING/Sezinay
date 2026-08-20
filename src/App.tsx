@@ -6,6 +6,7 @@ import { ThreeBackground } from './components/3d/ThreeBackground';
 import { TiltCard } from './components/3d/TiltCard';
 import { PasswordScreen } from './components/PasswordScreen';
 import { PhotoTimelineGallery } from './components/PhotoTimelineGallery';
+import { LoveVideoPlayer } from './components/LoveVideoPlayer';
 import { SpotifyBlendCard } from './components/SpotifyBlendCard';
 import { MemoryMap } from './components/MemoryMap';
 import { LoveLetter } from './components/LoveLetter';
@@ -130,12 +131,17 @@ export function App() {
           {/* Section 1: 3D Scroll-Driven Photo Timeline Gallery */}
           <PhotoTimelineGallery photos={INITIAL_PHOTOS} />
 
-          {/* Section 2: 3D Flip Secret Love Notes */}
+          {/* Section 2: Interactive Love Video Player / Memory Cinema */}
+          <div className="anime-stagger-card w-full flex justify-center my-6">
+            <LoveVideoPlayer />
+          </div>
+
+          {/* Section 3: 3D Flip Secret Love Notes */}
           <div className="anime-stagger-card w-full text-center flex justify-center my-6">
             <SecretNotes />
           </div>
 
-          {/* Section 3: Memory Map & Spotify Blend Card (Equal Heights) */}
+          {/* Section 4: Memory Map & Spotify Blend Card (Equal Heights) */}
           <section className="w-full my-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch justify-center max-w-5xl mx-auto">
             {/* Left: Memory Map */}
             <div className="anime-stagger-card w-full flex justify-center h-full">
@@ -152,7 +158,7 @@ export function App() {
             </div>
           </section>
 
-          {/* Section 4: Wax-Sealed Romantic Love Letter */}
+          {/* Section 5: Wax-Sealed Romantic Love Letter */}
           <section className="w-full my-10 text-center flex justify-center">
             <div className="anime-stagger-card w-full max-w-2xl mx-auto">
               <TiltCard className="w-full">
