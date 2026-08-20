@@ -97,6 +97,15 @@ export const INITIAL_PHOTOS: PolaroidPhoto[] = [
     scratchText: 'Her Anım Senle Güzel ✍️',
     rotation: 0,
   },
+  {
+    id: 'photo-11',
+    url: '/photos/photo11.jpg',
+    caption: 'Kuzulu Sevgilim & Görüntülü Ders Gecemiz 🐑💚',
+    date: 'Gece Sohbetlerimiz',
+    isScratchable: true,
+    scratchText: 'Kuzulu Prensesim Sezinay 🐑',
+    rotation: 0,
+  },
 ];
 
 export const MEMORY_LOCATIONS: MemoryLocation[] = [
@@ -148,9 +157,19 @@ export const MEMORY_LOCATIONS: MemoryLocation[] = [
     location: 'Online Kalp Bağı',
     date: 'Görüntülü Aramalarımız',
     description: 'Kulaklıkları takıp ekranda birbirimizin gözlerine bakarak ders çalıştığımız, saatlerin su gibi aktığı geceler.',
-    coordinates: { x: 50, y: 40 },
+    coordinates: { x: 45, y: 35 },
     icon: 'Coffee',
     photoUrl: '/photos/photo10.jpg',
+  },
+  {
+    id: 'loc-6',
+    title: 'Kuzulu Sezinay & Gece Konuşmaları 🐑💚',
+    location: 'Tatlı Gece Seansları',
+    date: 'Sarı Stor Perde Akşamı',
+    description: 'Kuzu oyuncağına sarılıp bana o tatlı bakışlarını attığın, dünyadaki en tatlı görüntülü konuşmamız.',
+    coordinates: { x: 58, y: 48 },
+    icon: 'Heart',
+    photoUrl: '/photos/photo11.jpg',
   },
 ];
 
