@@ -13,6 +13,7 @@ import { LoveLetter } from './components/LoveLetter';
 import { LoveCounter } from './components/LoveCounter';
 import { SecretNotes } from './components/SecretNotes';
 import { AnimeStaggerHeader } from './components/anime/AnimeStaggerHeader';
+import { MaintenanceScreen } from './components/MaintenanceScreen';
 import {
   PASSCODE,
   BOYFRIEND_NAME,
@@ -23,6 +24,12 @@ import {
 } from './data/content';
 
 export function App() {
+  const isMaintenanceMode = true;
+
+  if (isMaintenanceMode) {
+    return <MaintenanceScreen />;
+  }
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
