@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Heart,
@@ -10,14 +10,11 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  Maximize2,
   Trash2,
   AlertTriangle,
-  RotateCcw,
   CheckCircle2,
   XCircle,
   Film,
-  Upload,
 } from 'lucide-react';
 
 interface MaintenanceScreenProps {
@@ -30,7 +27,7 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
   // Secret flow state
   const [step, setStep] = useState<SecretStep>('IDLE');
   const [countdown, setCountdown] = useState<number>(3);
-  const [videoSrc, setVideoSrc] = useState<string>(initialVideoSrc);
+  const [videoSrc] = useState<string>(initialVideoSrc);
   const [hasWatched, setHasWatched] = useState<boolean>(() => {
     return localStorage.getItem('selo_secret_video_watched') === 'true';
   });
@@ -44,7 +41,6 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
   const [videoError, setVideoError] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Handle countdown logic
   useEffect(() => {
@@ -169,35 +165,6 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
     if (!videoRef.current) return;
     videoRef.current.muted = !isMuted;
     setIsMuted(!isMuted);
-  };
-
-  const handleFullscreen = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen();
-    }
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setVideoSrc(url);
-      setVideoError(false);
-      setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.play();
-          setIsPlaying(true);
-        }
-      }, 300);
-    }
-  };
-
-  // Reset video state for testing/development
-  const handleResetForTest = () => {
-    localStorage.removeItem('selo_secret_video_watched');
-    setHasWatched(false);
-    setStep('IDLE');
   };
 
   return (
@@ -461,23 +428,16 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
                 className="w-full h-full object-contain mx-auto rounded-3xl"
               />
 
-              {/* Fallback / Upload Prompt if video file is missing or not yet copied to public/photos/ */}
+              {/* Fallback prompt if video error occurs */}
               {videoError && (
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-950/95 via-black/95 to-rose-950/95 p-6 flex flex-col items-center justify-center text-center backdrop-blur-xl z-30">
                   <Film className="w-14 h-14 text-pink-400 mb-3 animate-pulse" />
                   <h3 className="text-xl md:text-2xl font-bold text-white font-heading">
-                    Henüz Video Dosyası Yüklenmedi 📽️
+                    Video Oynatılamadı 📽️
                   </h3>
-                  <p className="text-xs md:text-sm text-pink-200/90 max-w-md mt-2 leading-relaxed mb-6">
-                    Video dosyasını projendeki <code className="bg-white/10 px-2 py-0.5 rounded text-amber-300">public/photos/selo_secret_video.mp4</code> konumuna atabilir veya hemen bilgisayarından seçip izleyebilirsin!
+                  <p className="text-xs md:text-sm text-pink-200/90 max-w-md mt-2 leading-relaxed">
+                    Lütfen video dosyasının <code className="bg-white/10 px-2 py-0.5 rounded text-amber-300">public/photos/selo_secret_video.mp4</code> konumunda olduğundan emin olun.
                   </p>
-
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 via-rose-500 to-amber-400 text-white font-bold text-sm tracking-wide shadow-xl border border-white/40 hover:scale-105 transition-transform flex items-center gap-2 cursor-pointer"
-                  >
-                    <Upload className="w-4 h-4" /> Videonu Bilgisayarından Seç & Oynat ✨
-                  </button>
                 </div>
               )}
 
@@ -507,15 +467,6 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
                 </div>
               )}
             </div>
-
-            {/* Hidden file selector */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="video/*"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
 
             {/* Custom Control Bar (Strictly Non-Seekable) */}
             <div className="w-full max-w-4xl mt-4 p-4 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl flex flex-col gap-3">
@@ -550,23 +501,6 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
                   <div className="text-xs font-mono text-pink-200 tracking-wider">
                     {currentTimeFormatted} / {durationFormatted}
                   </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    title="Video Yükle / Değiştir"
-                    className="px-3 py-1.5 rounded-full bg-pink-950/80 border border-pink-400/40 text-pink-200 text-xs font-mono flex items-center gap-1.5 hover:bg-pink-900 transition-colors cursor-pointer"
-                  >
-                    <Upload className="w-3.5 h-3.5" /> Video Seç
-                  </button>
-
-                  <button
-                    onClick={handleFullscreen}
-                    className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-pink-300 hover:text-white transition-colors cursor-pointer"
-                  >
-                    <Maximize2 className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
             </div>
@@ -611,15 +545,6 @@ export function MaintenanceScreen({ initialVideoSrc = '/photos/selo_secret_video
                   className="w-full px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Bakım Moduna Dön
-                </button>
-
-                {/* Developer / Selo Reset Option to Re-test */}
-                <button
-                  onClick={handleResetForTest}
-                  title="Sıfırla (Tekrar İzlemek İçin Test Butonu)"
-                  className="w-full px-4 py-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 text-rose-300 text-xs font-mono transition-all flex items-center justify-center gap-1.5 cursor-pointer opacity-70 hover:opacity-100 mt-2"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" /> (Selo İçin) Videoyu Yeniden Kilitsiz Yap / Sıfırla
                 </button>
               </div>
             </motion.div>
