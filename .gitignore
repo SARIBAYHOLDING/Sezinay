@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Video media files (large binaries)
+*.mp4
+public/photos/*.mp4
+
